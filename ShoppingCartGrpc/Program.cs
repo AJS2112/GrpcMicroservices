@@ -16,6 +16,8 @@ namespace ShoppingCartGrpc
             // Add services to the container.
             builder.Services.AddGrpc();
             builder.Services.AddDbContext<ShoppingCartContext>(opt => opt.UseInMemoryDatabase("ShoppingCartDb"));
+            builder.Services.AddAutoMapper(typeof(Program));
+
 
             var app = builder.Build();
 
@@ -23,14 +25,10 @@ namespace ShoppingCartGrpc
             {
                 var context = scope.ServiceProvider.GetService<ShoppingCartContext>();
                 ShoppingCartContextSeed.SeedAsync(context).Wait();
-
-                //var services = scope.ServiceProvider;
-                //var dbContext = services.GetService<ProductsContext>();
-                //await ProductsContextSeed.SeedAsync(dbContext);
             }
 
             // Configure the HTTP request pipeline.
-            app.MapGrpcService<GreeterService>();
+            app.MapGrpcService<ShoppingCartService>();
             app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
             app.Run();
