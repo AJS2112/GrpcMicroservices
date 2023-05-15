@@ -58,6 +58,7 @@ namespace ProductGrpc.Services
 
             await _productsContext.Products.AddAsync(product);
             _productsContext.SaveChanges();
+            _logger.LogInformation($"Product successfully added: {product.ProductId}, {product.Name}");
 
             var productModel = _mapper.Map<ProductModel>(product);
 
