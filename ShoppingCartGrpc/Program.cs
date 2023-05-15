@@ -1,3 +1,4 @@
+using DiscountCrpc.Protos;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCartGrpc.Data;
 using ShoppingCartGrpc.Services;
@@ -15,6 +16,8 @@ namespace ShoppingCartGrpc
 
             // Add services to the container.
             builder.Services.AddGrpc();
+            builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(o => o.Address = new Uri(builder.Configuration["GrpcConfigs:DiscountUrl"]));
+            builder.Services.AddScoped<DiscountService>();
             builder.Services.AddDbContext<ShoppingCartContext>(opt => opt.UseInMemoryDatabase("ShoppingCartDb"));
             builder.Services.AddAutoMapper(typeof(Program));
 
